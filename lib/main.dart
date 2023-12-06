@@ -4,9 +4,21 @@ import 'package:instagram_app/responsive/responsive_layout_screen.dart';
 import 'package:instagram_app/responsive/web_screen_layout.dart';
 import 'package:instagram_app/utils/colors.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+// ...
+
+void main()  async {
+  WidgetsFlutterBinding.ensureInitialized();
+    runApp(const MyApp()); 
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+    
+);}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
