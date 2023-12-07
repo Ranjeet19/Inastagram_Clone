@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 24,
           ),
 
-            //Text fiel input for password,
+          //Text fiel input for password,
           TextFieldInput(
             hintText: "Enter Password",
             textEditingController: _passwordCotroler,
@@ -64,44 +64,55 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 24,
           ),
 
-
           //Loginn Button,
 
-          Container(
-            alignment: Alignment.center,
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            decoration: const ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4),
+          InkWell(
+            onTap: (){},
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: const ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4),
+                    ),
                   ),
-                ),
-                color: blueColor),
-            child: const  Text('Log In'),
-
+                  color: blueColor),
+              child: const Text('Log In'),
+            ),
           ),
 
-        const SizedBox(height: 12,),
-        Flexible(child: Container(), flex: 2,),
+          const SizedBox(
+            height: 12,
+          ),
+          Flexible(
+            child: Container(),
+            flex: 2,
+          ),
 
           // Transition Button,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding:  const EdgeInsets.symmetric(vertical: 8),
-              child: const Text("Don't have an Account? ",),
-            ),
-            GestureDetector(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: const Text("Sign Up", style:TextStyle(fontWeight: FontWeight.bold)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: const Text(
+                  "Don't have an Account? ",
+                ),
               ),
-            )
-          ],
-        )  
-
+              GestureDetector(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: const Text("Sign Up",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+              ),
+             const  SizedBox(
+                height: 5,
+              ),
+            ],
+          )
         ]),
       )),
     );
