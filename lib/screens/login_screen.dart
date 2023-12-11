@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instagram_app/resourses/auth_methods.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:instagram_app/utils/utils.dart';
 
 import '../widgets/text_field_input.dart';
 
@@ -14,6 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController _passwordCotroler = TextEditingController();
 
+  bool _isLoading = false;
+
   // const LoginScreen({super.key});
   @override
   void dispose() {
@@ -22,6 +26,23 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordCotroler.dispose();
   }
+
+   void logInUsers()async{
+
+    setState(() {
+      _isLoading = true;
+    });
+      String res = await AuthMethods().logInUsers(email: _emailController.text, password: _passwordCotroler.text);
+
+      if(res=="success"){
+
+      }else{
+        showSnackBar(res, context);
+      }
+      setState(() {
+        _isLoading = false;
+      });
+   }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
           //Loginn Button,
 
           InkWell(
-            onTap: (){},
+            onTap: logInUsers,
             child: Container(
               alignment: Alignment.center,
               width: double.infinity,
@@ -79,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   color: blueColor),
-              child: const Text('Log In'),
+              child: _isLoading? Center(child: CircularProgressIndicator(color: primaryColor,),): const Text('Log In'),
             ),
           ),
 
