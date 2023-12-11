@@ -24,7 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   // const LoginScreen({super.key});
 
-void dispose() {
+  void dispose() {
     super.dispose();
 
     _emailController.dispose();
@@ -32,17 +32,15 @@ void dispose() {
     _usernameController.dispose();
     _bioController.dispose();
   }
-   
 
-   void selectImage ()async{
-      Uint8List im = await pickImage(ImageSource.gallery);
-      setState(() {
-        _image = im;
-      });
-   }
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
 
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -64,28 +62,30 @@ void dispose() {
             height: 30,
           ),
 
-
           // Circular avatar widget for selecting dp images,
-          
-           Stack(children: [
-              _image !=null? CircleAvatar(
-                radius: 50,
-              backgroundImage: MemoryImage(_image!),
-             )
-              
-              :const CircleAvatar(
-                radius: 50,
-              backgroundImage: NetworkImage("https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-             ),
-             Positioned(
-              bottom: -10,left: 70,
-              child: IconButton(
-                onPressed: selectImage, 
-                icon: const Icon(CupertinoIcons.add_circled_solid)),
-              ),
 
-          ],),
-             SizedBox(
+          Stack(
+            children: [
+              _image != null
+                  ? CircleAvatar(
+                      radius: 50,
+                      backgroundImage: MemoryImage(_image!),
+                    )
+                  : const CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                          "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                    ),
+              Positioned(
+                bottom: -10,
+                left: 70,
+                child: IconButton(
+                    onPressed: selectImage,
+                    icon: const Icon(CupertinoIcons.add_circled_solid)),
+              ),
+            ],
+          ),
+          SizedBox(
             height: 24,
           ),
           //Text field Input for Username,
@@ -130,14 +130,16 @@ void dispose() {
           //Loginn Button,
 
           InkWell(
-            onTap: () async{
-              String res= await AuthMethods().signUpUser(
-                username: _usernameController.text, 
-                password: _passwordCotroler.text, 
-                email: _emailController.text, 
-                bio: _bioController.text);
+            onTap: () async {
+              String res = await AuthMethods().signUpUser(
+                username: _usernameController.text,
+                password: _passwordCotroler.text,
+                email: _emailController.text,
+                bio: _bioController.text,
+                file: _image!,
+              );
 
-                print(res);
+              print(res);
             },
             child: Container(
               alignment: Alignment.center,
