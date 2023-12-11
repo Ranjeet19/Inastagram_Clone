@@ -21,6 +21,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordCotroler = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   Uint8List? _image;
+  bool _isLoading = false;
 
   // const LoginScreen({super.key});
 
@@ -38,6 +39,29 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       _image = im;
     });
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().signUpUser(
+      username: _usernameController.text,
+      password: _passwordCotroler.text,
+      email: _emailController.text,
+      bio: _bioController.text,
+      file: _image!,
+    );
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    if (res != 'success') {
+      showSnackBar(res, context);
+    } else {
+      //
+    }
   }
 
   @override
@@ -74,7 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   : const CircleAvatar(
                       radius: 50,
                       backgroundImage: NetworkImage(
-                          "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrxMNkq9COMgaR8ikKTfjVHoAHcOdydsBHoQ&usqp=CAU"),
                     ),
               Positioned(
                 bottom: -10,
@@ -130,17 +154,7 @@ class _SignupScreenState extends State<SignupScreen> {
           //Loginn Button,
 
           InkWell(
-            onTap: () async {
-              String res = await AuthMethods().signUpUser(
-                username: _usernameController.text,
-                password: _passwordCotroler.text,
-                email: _emailController.text,
-                bio: _bioController.text,
-                file: _image!,
-              );
-
-              print(res);
-            },
+            onTap: signUpUser,
             child: Container(
               alignment: Alignment.center,
               width: double.infinity,
@@ -152,7 +166,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   color: blueColor),
-              child: const Text('Sign Up'),
+              child: _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(color: primaryColor,),
+                    )
+                  : const Text('Sign Up'),
             ),
           ),
 
