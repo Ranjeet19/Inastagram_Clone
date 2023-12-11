@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:instagram_app/utils/utils.dart';
 
 import '../resourses/auth_methods.dart';
 import '../widgets/text_field_input.dart';
@@ -16,10 +20,11 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordCotroler = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
+  Uint8List? _image;
 
   // const LoginScreen({super.key});
-  @override
-  void dispose() {
+
+void dispose() {
     super.dispose();
 
     _emailController.dispose();
@@ -27,6 +32,16 @@ class _SignupScreenState extends State<SignupScreen> {
     _usernameController.dispose();
     _bioController.dispose();
   }
+   
+
+   void selectImage ()async{
+      Uint8List im = await pickImage(ImageSource.gallery);
+      setState(() {
+        _image = im;
+      });
+   }
+
+  @override
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,14 +68,19 @@ class _SignupScreenState extends State<SignupScreen> {
           // Circular avatar widget for selecting dp images,
           
            Stack(children: [
-              const CircleAvatar(
+              _image !=null? CircleAvatar(
+                radius: 50,
+              backgroundImage: MemoryImage(_image!),
+             )
+              
+              :const CircleAvatar(
                 radius: 50,
               backgroundImage: NetworkImage("https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
              ),
              Positioned(
               bottom: -10,left: 70,
               child: IconButton(
-                onPressed: (){}, 
+                onPressed: selectImage, 
                 icon: const Icon(CupertinoIcons.add_circled_solid)),
               ),
 
