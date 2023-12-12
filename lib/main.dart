@@ -1,23 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:instagram_app/responsive/mobile_screen_layout.dart';
 import 'package:instagram_app/responsive/responsive_layout_screen.dart';
 import 'package:instagram_app/responsive/web_screen_layout.dart';
 import 'package:instagram_app/screens/login_screen.dart';
 import 'package:instagram_app/utils/colors.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 // ...
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
-
-  await Firebase.initializeApp(
+   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp( const MyApp());
+
+ 
 }
 
 class MyApp extends StatelessWidget {
@@ -31,16 +32,18 @@ class MyApp extends StatelessWidget {
         title: 'Instagram_App',
         theme: ThemeData.dark()
             .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
-        home: StreamBuilder(
+        home: 
+        StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
-          builder: ((context, snapshot) {
+          builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
                 return const ResponsiveLayout(
+                  mobileScreenLayout: MobileScreenLayout(),
                     webScreenLayout: WebScreenLayout(),
-                    mobileScreenLayout: MobileScreenLayout());
+                    );
               }else if(snapshot.hasError){
-                return Center(child: Text('$snapshot.error'),);
+                return Center(child: Text('${snapshot.error}'),);
               }
             }if(snapshot.connectionState== ConnectionState.waiting){
               return const Center(
@@ -50,7 +53,7 @@ class MyApp extends StatelessWidget {
               );
             }
             return LoginScreen();
-          }),
+          },
         ),
         // home: const ResponsiveLayout(mobileScreenLayout: MobileScreenLayout(), webScreenLayout:WebScreenLayout() ,),
         );

@@ -4,11 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:instagram_app/responsive/mobile_screen_layout.dart';
+import 'package:instagram_app/responsive/responsive_layout_screen.dart';
+import 'package:instagram_app/responsive/web_screen_layout.dart';
 import 'package:instagram_app/utils/colors.dart';
 import 'package:instagram_app/utils/utils.dart';
 
 import '../resourses/auth_methods.dart';
 import '../widgets/text_field_input.dart';
+import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -60,8 +64,17 @@ class _SignupScreenState extends State<SignupScreen> {
     if (res != 'success') {
       showSnackBar(res, context);
     } else {
-      //
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout())));
     }
+  }
+
+  void navigateToLogin() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => LoginScreen(),
+    ));
   }
 
   @override
@@ -168,7 +181,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   color: blueColor),
               child: _isLoading
                   ? const Center(
-                      child: CircularProgressIndicator(color: primaryColor,),
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
                     )
                   : const Text('Sign Up'),
             ),
@@ -193,6 +208,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               GestureDetector(
+                onTap: navigateToLogin,
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: const Text("Sign Up",
