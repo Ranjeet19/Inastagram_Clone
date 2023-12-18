@@ -4,7 +4,7 @@ import 'package:instagram_app/models/user.dart' as model;
 import 'package:instagram_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+/////
 class MobileScreenLayout extends StatelessWidget {
   const MobileScreenLayout({super.key});
 
