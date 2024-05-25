@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:instagram_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../utils/dimensionn.dart';
+import '../utils/global_variables.dart';
 
 
 class ResponsiveLayout extends StatefulWidget {
