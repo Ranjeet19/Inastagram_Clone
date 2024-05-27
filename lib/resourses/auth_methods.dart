@@ -25,7 +25,7 @@ class AuthMethods {
   Future<String> signUpUser({
     required String username,
     required String password,
-    required String email,
+    required String email, 
     required String bio,
     required Uint8List file,
   }) async {
