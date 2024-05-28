@@ -22,17 +22,33 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
 
+  bool _isLoading = false;
+
   void postImage(
     String uid,
     String username,
     String profImage,
   ) async {
+
+    setState(() {
+      _isLoading=true;
+    });
     try{
       String res = await FirestoreMethods().uploadPost(_descriptionController.text, uid, _file!, username, profImage);
 
       if(res=="Success"){
+
+        setState(() {
+          _isLoading=false;
+        });
         showSnackBar('Posted', context);
+
+        clearImage();
       }else{
+
+        setState(() {
+          _isLoading= false;
+        });
         showSnackBar(res, context);
       }
 
@@ -89,6 +105,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
         });
   }
 
+  void clearImage(){
+    setState(() {
+      _file=null;
+    });
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -112,7 +134,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               backgroundColor: mobileBackgroundColor,
               leading: IconButton(
                 icon: const Icon(CupertinoIcons.back),
-                onPressed:(){}
+                onPressed:clearImage,
               ),
               title: const Text("Post to"),
               centerTitle: false,
@@ -130,9 +152,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
               ],
             ),
             body: Column(
+
               children: [
+
+                _isLoading? const LinearProgressIndicator():Padding(
+                  padding: EdgeInsets.only(top: 0),
+                ),
+                Divider(),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
