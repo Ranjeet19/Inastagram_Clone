@@ -2,15 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:intl/intl.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key});
+  final snap;
+  const PostCard({Key? key, required this.snap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: mobileBackgroundColor,
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
           Container(
@@ -18,19 +20,19 @@ class PostCard extends StatelessWidget {
                 .copyWith(right: 0),
             child: Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 16,
-                  backgroundImage: NetworkImage(""),
+                  backgroundImage: NetworkImage(snap["profImage"]),
                 ),
-                const Expanded(
+                Expanded(
                     child: Padding(
-                  padding: EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: 8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Username",
+                        snap["username"],
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
@@ -67,7 +69,7 @@ class PostCard extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.35,
             width: double.infinity,
-            child: Image.network("https://images.unsplash.com/photo-1585020430145-2a6b034f7729?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", fit: BoxFit.cover),
+            child: Image.network(snap['postUrl'], fit: BoxFit.cover),
           ),
           Row(
             children: [
@@ -81,7 +83,7 @@ class PostCard extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.send),
+                icon: Icon(Icons.share),
               ),
               Expanded(
                 child: Align(
@@ -107,42 +109,46 @@ class PostCard extends StatelessWidget {
                         .titleMedium!
                         .copyWith(fontWeight: FontWeight.w800),
                     child: Text(
-                      '123 likes',
+                      // "111 likes",
+                      '${snap['Likes'].length} Likes',
                       style: Theme.of(context).textTheme.bodyMedium,
                     )),
-
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.only(top: 8),
-                      child:  RichText(text: const TextSpan(
-                        style: TextStyle(color: primaryColor),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 8),
+                  child: RichText(
+                    text: TextSpan(
+                        style: const TextStyle(color: primaryColor),
                         children: [
                           TextSpan(
-                            text: "Username ",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            text: snap['username'],
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
-                            text: "Hey this is the description which is supposed to be replaced verry soon"
+                            text: ' ${snap['description']}',
                           )
-                      ]),),
-
-
+                        ]),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Text(
+                      "View all 200 Comments",
+                      style: TextStyle(color: secondaryColor),
                     ),
-                    InkWell(
-                      onTap: (){},
-                      child: Container(
-                        padding:  const EdgeInsets.only(top: 5),
-                        child: Text("View all 200 Comments",
-                        style: TextStyle(color: secondaryColor),),
-                      ),
-                    ),
-                    Container(
-                        padding:  const EdgeInsets.symmetric(vertical: 1),
-                        child: Text("22/09/2024",
-                        style: TextStyle(color: secondaryColor, fontSize: 14),),
-                      ),
-
-
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 1),
+                  child: Text(
+                    DateFormat.yMMMd().format(snap['datePublished'].toDate()),
+                    style: const TextStyle(color: secondaryColor, fontSize: 14),
+                  ),
+                ),
               ],
             ),
           ),
