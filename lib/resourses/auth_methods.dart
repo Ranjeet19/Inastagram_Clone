@@ -10,7 +10,6 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  ////////////
 
   Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser!;
@@ -36,6 +35,7 @@ class AuthMethods {
           password.isNotEmpty ||
           email.isNotEmpty ||
           bio.isNotEmpty ||
+          // ignore: unnecessary_null_comparison
           file != null) {
         //Regestering The Users
         UserCredential cred = await _auth.createUserWithEmailAndPassword(

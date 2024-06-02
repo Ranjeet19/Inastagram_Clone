@@ -102,18 +102,19 @@ class _PostCardState extends State<PostCard> {
                   duration: const Duration(microseconds: 200),
                   opacity: isLikeAnimating ? 1 : 0,
                   child: LikeAnimation(
-                    child: const Icon(
-                      Icons.favorite,
-                      color: Colors.white,
-                      size: 130,
-                    ),
-                    isAnimating: isLikeAnimating,
+                     isAnimating: isLikeAnimating,
                     duration: const Duration(milliseconds: 400),
                     onEnd: () {
                       setState(() {
                         isLikeAnimating = false;
                       });
                     },
+                    child: const Icon(
+                      Icons.favorite,
+                      color: Colors.white,
+                      size: 130,
+                    ),
+                   
                   ),
                 )
               ],
@@ -123,7 +124,7 @@ class _PostCardState extends State<PostCard> {
             children: [
               LikeAnimation(
                 isAnimating: widget.snap['Likes'].contains(user.uid),
-                smallLke: true,
+                // smallLke: true,
                 child: IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.favorite_outline),
@@ -131,18 +132,18 @@ class _PostCardState extends State<PostCard> {
               ),
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.mode_comment_outlined),
+                icon: const Icon(Icons.mode_comment_outlined),
               ),
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.share),
+                icon: const Icon(Icons.share),
               ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.bookmark_outline),
+                    icon: const Icon(Icons.bookmark_outline),
                   ),
                 ),
               ),
@@ -187,7 +188,7 @@ class _PostCardState extends State<PostCard> {
                   onTap: () {},
                   child: Container(
                     padding: const EdgeInsets.only(top: 5),
-                    child: Text(
+                    child: const Text(
                       "View all 200 Comments",
                       style: TextStyle(color: secondaryColor),
                     ),
