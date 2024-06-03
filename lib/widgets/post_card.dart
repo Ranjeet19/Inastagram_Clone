@@ -99,11 +99,11 @@ class _PostCardState extends State<PostCard> {
                       Image.network(widget.snap['postUrl'], fit: BoxFit.cover),
                 ),
                 AnimatedOpacity(
-                  duration: const Duration(microseconds: 200),
-                  opacity: isLikeAnimating ? 1 : 0,
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isLikeAnimating ? 1:0,
                   child: LikeAnimation(
                      isAnimating: isLikeAnimating,
-                    duration: const Duration(milliseconds: 400),
+                    duration: const Duration(microseconds: 400),
                     onEnd: () {
                       setState(() {
                         isLikeAnimating = false;
@@ -124,7 +124,7 @@ class _PostCardState extends State<PostCard> {
             children: [
               LikeAnimation(
                 isAnimating: widget.snap['Likes'].contains(user.uid),
-                // smallLke: true,
+                smallLke: true,
                 child: IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.favorite_outline),
