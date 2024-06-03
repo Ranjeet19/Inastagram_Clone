@@ -67,7 +67,12 @@ class _PostCardState extends State<PostCard> {
                                   shrinkWrap: true,
                                   children: ['Delete']
                                       .map((e) => InkWell(
-                                            onTap: () {},
+                                            onTap: () async {
+                                              FirestoreMethods().deletePost(
+                                                  widget.snap['postId']);
+
+                                                  Navigator.of(context).pop();
+                                            },
                                             child: Container(
                                               padding:
                                                   const EdgeInsets.symmetric(
@@ -88,6 +93,7 @@ class _PostCardState extends State<PostCard> {
             onDoubleTap: () async {
               await FirestoreMethods().likePost(
                   widget.snap['postId'], user.uid, widget.snap['Likes']);
+                  
               setState(() {
                 isLikeAnimating = true;
               });
