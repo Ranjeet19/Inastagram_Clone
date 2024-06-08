@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_app/screens/profile_screen.dart';
 import 'package:instagram_app/utils/colors.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
@@ -55,14 +56,20 @@ class _SearchScreenState extends State<SearchScreen> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          (snapshot.data! as dynamic).docs[index]['photoUrl'],
+                    return InkWell(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              ProfileScreen(uid: snapshot.data! as dynamic)
+                                  .docs[index]['uid'])),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            (snapshot.data! as dynamic).docs[index]['photoUrl'],
+                          ),
                         ),
+                        title: Text((snapshot.data! as dynamic).docs[index]
+                            ['username']),
                       ),
-                      title: Text(
-                          (snapshot.data! as dynamic).docs[index]['username']),
                     );
                   },
                 );
@@ -83,11 +90,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     (snapshot.data! as dynamic).docs[index]['postUrl'],
                   ),
                   staggeredTileBuilder: (index) => StaggeredTile.count(
-                      (index % 7 == 0) ? 2 : 1, 
-                      (index % 7 == 0) ? 2 : 1),
-
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
+                      (index % 7 == 0) ? 2 : 1, (index % 7 == 0) ? 2 : 1),
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
                 );
               }),
     );
