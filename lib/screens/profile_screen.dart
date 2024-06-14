@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:instagram_app/resourses/firestore_methods.dart';
 import 'package:instagram_app/utils/colors.dart';
 import 'package:instagram_app/utils/utils.dart';
 import 'package:instagram_app/widgets/follow_button.dart';
@@ -125,14 +126,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 borderColor: Colors.black,
                                                 text: "Unfollow",
                                                 textColor: Colors.grey,
-                                                function: () {},
+                                                function: () async {
+                                                  await FirestoreMethods()
+                                                      .followUsers(
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid,
+                                                          userData['uid']);
+                                                          setState(() {
+                                                            isFollowing=false;
+                                                            followers--;
+                                                          });
+                                                },
                                               )
                                             : FollowButton(
                                                 backgroundColor: Colors.blue,
                                                 borderColor: Colors.white,
                                                 text: "Follow",
                                                 textColor: Colors.blue,
-                                                function: () {},
+                                                function: () async {
+                                                  await FirestoreMethods()
+                                                      .followUsers(
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid,
+                                                          userData['uid']);
+
+                                                  setState(() {
+                                                    isFollowing = true;
+                                                    followers++;
+                                                  });
+                                                },
                                               )
                                   ],
                                 ),
@@ -163,32 +185,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           future: FirebaseFirestore.instance
                               .collection("posts")
                               .get(),
-                          builder: ((context, snapshot){
-                            if(snapshot.connectionState== ConnectionState.waiting){
+                          builder: ((context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             }
                             return GridView.builder(
-                              shrinkWrap: true,
-                              itemCount: (snapshot.data! as dynamic).docs.length,
-                          
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 1.5,
-                                childAspectRatio: 1,),
-                              itemBuilder: ((context, index) {
-                                DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
+                                shrinkWrap: true,
+                                itemCount:
+                                    (snapshot.data! as dynamic).docs.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 5,
+                                  mainAxisSpacing: 1.5,
+                                  childAspectRatio: 1,
+                                ),
+                                itemBuilder: ((context, index) {
+                                  DocumentSnapshot snap =
+                                      (snapshot.data! as dynamic).docs[index];
 
-                                return Container(
-                                  child: Image(
-                                    image: NetworkImage(
-                                      snap['postUrl'],),
-                                      fit: BoxFit.cover,
+                                  return Container(
+                                    child: Image(
+                                      image: NetworkImage(
+                                        snap['postUrl'],
                                       ),
-                                );
-                              }));
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                }));
                           }))
                     ],
                   ),
