@@ -120,10 +120,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             borderColor: primaryColor,
                                             text: "Sign Out",
                                             textColor: Colors.grey,
-                                            function: () async{
-                                              await AuthMethods().signOut();
-                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> LoginScreen()));
-
+                                            function: () async {
+                                              await FirebaseAuth.instance
+                                                  .signOut();
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              LoginScreen()));
                                             },
                                           )
                                         : isFollowing
@@ -138,10 +142,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           FirebaseAuth.instance
                                                               .currentUser!.uid,
                                                           userData['uid']);
-                                                          setState(() {
-                                                            isFollowing=false;
-                                                            followers--;
-                                                          });
+                                                  setState(() {
+                                                    isFollowing = false;
+                                                    followers--;
+                                                  });
                                                 },
                                               )
                                             : FollowButton(
